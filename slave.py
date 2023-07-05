@@ -34,16 +34,15 @@ class Slave:
         port = self.config['name_node']['port']
         
         try:
-            
+            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client_socket.connect((host, port))
 
             for key in self.result.keys():
-                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                client_socket.connect((host, port))
                 subresult = {key: self.result[key]}
                 print("[Slave] [" + str(client_socket.getsockname()) + "]: Sending subresults to NameNode: " + str(subresult))
                 client_socket.sendall(str(subresult).encode('utf-8'))
-                client_socket.close()
                 
+            client_socket.close()
 
         except ConnectionRefusedError:
             print(f"Error: Connection refused. Please make sure the NameNode is running at {host}:{port}")

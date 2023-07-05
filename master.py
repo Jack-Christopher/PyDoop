@@ -65,18 +65,18 @@ class Master:
         # self.server_socket.listen(1)
 
         client_sockets = []
-        
+        client_socket, addr = self.server_socket.accept()
         while True:    
-            client_socket, addr = self.server_socket.accept()
             subresult = client_socket.recv(1024)
             print('[NameNode]: Recibiendo subresultados de DataNode: '+str(addr))
             print('[NameNode]: Subresultados recibidos: '+str(subresult))
             self.main_result = reducer(self.main_result, eval(subresult.decode('utf-8')))
+            # client_socket.close()
            
             # store result in a file
             with open(self.config['result_path'] + '/result.txt', 'w', encoding='utf-8') as f:
                 f.write(str(self.main_result))
 
-            client_socket.close()
+        client_socket.close()
 
         self.server_socket.close()
