@@ -49,7 +49,7 @@ class Master:
         
         # print confirmation
         print('[NameNode]: Todos los DataNodes conectados')
-        self.server_socket.close()
+        # self.server_socket.close()
         
         self.map_reduce()
         
@@ -57,23 +57,27 @@ class Master:
     
     def map_reduce(self):
         print('[NameNode]: Esperando subresults...')
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        host = self.config['name_node']['host']
-        port = self.config['name_node']['port']
+        # self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # host = self.config['name_node']['host']
+        # port = self.config['name_node']['port']
         print('[NameNode]: Iniciando servidor mapreduce en '+str(host)+':'+str(port))
-        self.server_socket.bind((host, port))
+        # self.server_socket.bind((host, port))
+        # self.server_socket.listen(1)
 
-        self.server_socket.listen(1)
-
+        client_sockets = []
         while True:
             client_socket, addr = self.server_socket.accept()
+            client_sockets.append((client_socket, addr))
             subresult = client_socket.recv(1024)
             print('[NameNode]: Recibiendo subresultados de DataNode: '+str(addr))
             self.main_result = reducer(self.main_result, eval(subresult.decode('utf-8')))
-            client_socket.close()
+            # client_socket.close()
            
             # store result in a file
             with open(self.config['result_path'] + '/result.txt', 'w', encoding='utf-8') as f:
                 f.write(str(self.main_result))
+
+        for client_socket, addr in client_sockets:
+            client_socket.close()
 
         self.server_socket.close()
