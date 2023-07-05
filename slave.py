@@ -2,7 +2,7 @@ import socket
 from map_reduce import mapper, reducer
 
 class Slave:
-    def _init_(self, config):
+    def __init__(self, config):
         self.config = config
         self.files = []
         self.result = None
@@ -41,7 +41,7 @@ class Slave:
                 subresult = {key: value}
                 client_socket.sendall(str(subresult).encode('utf-8'))
                 print("[Slave] [" + str(client_socket.getsockname()) + "]: Sending subresults to NameNode: " + str(subresult))
-                
+
         except ConnectionRefusedError:
             print(f"Error: Connection refused. Please make sure the NameNode is running at {host}:{port}")
             return

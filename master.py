@@ -60,7 +60,7 @@ class Master:
         # self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # host = self.config['name_node']['host']
         # port = self.config['name_node']['port']
-        print('[NameNode]: Iniciando servidor mapreduce en '+str(host)+':'+str(port))
+        print('[NameNode]: Iniciando servidor mapreduce') # en '+str(host)+':'+str(port))
         # self.server_socket.bind((host, port))
         # self.server_socket.listen(1)
 
