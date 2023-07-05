@@ -29,7 +29,7 @@ def mapper(document_names, file_path):
     for document_name in document_names:
         temp = mapper_helper(document_name, file_path)
         for key in temp:
-            result[key] = result.get(tuple(key), set()) | temp[key]
+            result[key] = result.get(tuple(key), set()) | set(temp[key])
     return result
 
 
@@ -37,7 +37,7 @@ def mapper(document_names, file_path):
 def reducer(result, sub_result):
     for key in sub_result:
         if result is not None:
-            result[key] = result.get(tuple(key), set()) | sub_result[key]
+            result[key] = result.get(tuple(key), set()) | set(sub_result[key])
         else:
             result = sub_result
     return result

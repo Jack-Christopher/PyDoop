@@ -65,11 +65,11 @@ class Master:
         # self.server_socket.listen(1)
 
         client_sockets = []
-        while True:
-            client_socket, addr = self.server_socket.accept()
-            client_sockets.append((client_socket, addr))
+        client_socket, addr = self.server_socket.accept()
+        while True:    
             subresult = client_socket.recv(1024)
             print('[NameNode]: Recibiendo subresultados de DataNode: '+str(addr))
+            print('[NameNode]: Subresultados recibidos: '+str(subresult))
             self.main_result = reducer(self.main_result, eval(subresult.decode('utf-8')))
             # client_socket.close()
            
@@ -77,7 +77,6 @@ class Master:
             with open(self.config['result_path'] + '/result.txt', 'w', encoding='utf-8') as f:
                 f.write(str(self.main_result))
 
-        for client_socket, addr in client_sockets:
-            client_socket.close()
+        client_socket.close()
 
         self.server_socket.close()
