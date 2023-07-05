@@ -1,0 +1,12 @@
+{
+  "is_master": true,
+  "data_path": "./DATA",
+  "result_path": "./RESULT",
+  "dev_mode": true,
+  "num_data_nodes": 2,
+
+  "name_node": {
+    "host": "localhost",
+    "port": 53000
+  }
+}
