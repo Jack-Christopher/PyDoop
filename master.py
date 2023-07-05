@@ -27,6 +27,7 @@ class Master:
     def start_server(self):
         host = self.config['name_node']['host']
         port = self.config['name_node']['port']
+        print('[NameNode]: Iniciando servidor en '+str(host)+':'+str(port))
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((host, port))
         self.server_socket.listen(1)
@@ -58,7 +59,11 @@ class Master:
     def map_reduce(self):
         print('[NameNode]: Esperando subresults...')
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socket.bind((self.config['name_node']['host'], self.config['name_node']['port']))
+        host = self.config['name_node']['host']
+        port = self.config['name_node']['port']
+        print('[NameNode]: Iniciando servidor en '+str(host)+':'+str(port))
+        self.server_socket.bind((host, port))
+
         self.server_socket.listen(1)
 
         while True:
