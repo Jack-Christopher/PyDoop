@@ -5,7 +5,7 @@ from map_reduce import reducer
 class Master:
     def __init__(self, config):
         self.config = config
-        self.num_data_nodes = len(config['data_nodes'])
+        self.num_data_nodes = config['num_data_nodes']
         self.main_result = None
         self.server_socket = None
 
@@ -60,7 +60,7 @@ class Master:
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((self.config['name_node']['host'], self.config['name_node']['port']))
         self.server_socket.listen(1)
-        
+
         while True:
             client_socket, addr = self.server_socket.accept()
             subresult = client_socket.recv(1024)
